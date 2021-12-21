@@ -2,7 +2,7 @@
 
 This is a repository consisting of my work for AP Computer Science A at Lynbrook High School
 
-Access the textbook [here](https://github.com/ParadoxFlame/APCompSci_p6/blob/master/Java%20Methods.pdf)
+**Access the textbook [here](https://github.com/ParadoxFlame/APCompSci_p6/blob/master/Java%20Methods.pdf)**
 
 **WARNING:** Some programs might be incomplete, or uncommented.
 
