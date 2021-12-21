@@ -2,6 +2,8 @@
 
 This is a repository consisting of my work for AP Computer Science A at Lynbrook High School
 
+Access the textbook [here](https://github.com/ParadoxFlame/APCompSci_p6/blob/master/Java%20Methods.pdf)
+
 **WARNING:** Some programs might be incomplete, or uncommented.
 
 - **[fraction](src/apcs/fraction)** [(docs)](https://ap-csa.thatrobot.dev/src/apcs/fraction/doc/apcs/fraction/Fraction.html) - Class that models a fraction, with ~25 public methods. This class allows you to store fractions in Java without any loss in precision you would get with float division. It handles edge cases like undefined fractions, as well as input support for mixed fractions and integer operands. It also automatically simplifies any fractions it returns. Each method is documented, and mostly tested.  
