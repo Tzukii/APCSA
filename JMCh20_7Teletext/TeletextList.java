@@ -91,44 +91,110 @@ public class TeletextList {
      * holds a blank line.
      */
     public void delete() {
-        // TODO complete method
+        /*
+         * Creates a ListNode with the next value in topNode
+         */
+        ListNode2<String> temp = topNode.getNext();
+
+        /*
+         * Checks if that next value is the same as the heading or a blank line(blank
+         * lines surround heading so you can use getNext and getPrevious here)
+         */
+        if (temp.equals(heading) || temp.equals(heading.getPrevious()) || temp.equals(heading.getNext())) {
+            /*
+             * If the next value is the same, exit the method
+             */
+            return;
+        }
+
+        /*
+         * Else, create a newNode that contains the value after temp. Set topNode to the
+         * value 2 lines after heading. Replace the item in topNode with newNode, the
+         * value after temp. Set the value before topNode to a blank line
+         * 
+         * Essentially, you just delete the node that follows topNode from the headlines
+         * list.
+         */
+
+        ListNode2<String> newNode = temp.getNext();
+        topNode = heading.getNext().getNext();
+        heading.getNext().setNext(newNode);
+        topNode.setPrevious(newNode);
     }
 
     /**
      * Scrolls up the headlines list, advancing topNode to the next node.
      */
     public void scrollUp() {
-        // TODO complete method
+        /*
+         * Inbuilt function. You get the value after topNode, advancing it to the next
+         * node
+         */
+        topNode = topNode.getNext();
     }
 
-    /*
+    /**
      * Adds a new node with msg to the headlines list before a given node.
      * Returns a referenece to the added node.
      */
     private ListNode2<String> addBefore(ListNode2<String> node, String msg) {
+        /*
+         * Create a newNode that contains {node.getPrevious(), msg, node}
+         */
         ListNode2<String> newNode = new ListNode2<String>(msg, node.getPrevious(), node);
+
+        /*
+         * Set the value between node.getPrevious and node to newNode
+         */
         node.getPrevious().setNext(newNode);
-        node.setPrevious(newNode);
+
         return newNode;
     }
 
-    /*
+    /**
      * Adds a new node with msg to the headlines list after a given node.
      * Returns a referenece to the added node.
      */
     private ListNode2<String> addAfter(ListNode2<String> node, String msg) {
-        // TODO complete method
-        return null; // fix this
+        /*
+         * Create a newNode that contains {node.getPrevious(), msg, node}
+         */
+        ListNode2<String> newNode = new ListNode2<String>(msg, node.getPrevious(), node);
+    
+        /*
+         * Set the value 2 nodes ahead of node to newNode
+         */
+        node.getNext().setNext(newNode);
+
+        return newNode;
     }
 
-    /*
+    /**
      * Removes a given node from the list.
      */
     private void remove(ListNode2<String> node) {
-        // TODO complete method
+        /*
+         * Traverse the array until you reach node using a while loop
+         */
+
+        while (!heading.equals(node)) {
+            heading = heading.getNext();
+        }
+
+        /*
+         * Once you reach node, create a newNode that contains a blank space
+         */
+        ListNode2<String> newNode = heading.getNext().getNext();
+
+        /*
+         * Remove the node by overwriting it with newNode
+         */
+        heading.getPrevious().setNext(newNode);
+        newNode.setPrevious(heading.getPrevious());
+
     }
 
-    /*
+    /**
      * Draws nLines headlines in g, starting with topNode at x, y and
      * incrementing y by lineHeight after each headline.
      */
