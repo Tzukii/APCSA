@@ -104,7 +104,7 @@ public class RPN {
      * Reads the expression on the next line
      */
     public void readExpression() {
-        String input = scan.nextLine();
+        String input = scan.nextLine();    
         while (!input.equalsIgnoreCase("q")) {
             myQ.add(input);
             input = scan.nextLine();
