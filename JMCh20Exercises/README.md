@@ -1,4 +1,4 @@
-# JM Ch21.3 - Browsing
+# JMCh20Exercises
 
 Due: Tuesday, January 11, 2022 at 11:55 pm
 
