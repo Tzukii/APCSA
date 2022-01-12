@@ -39,10 +39,14 @@ public class JMCh20Exercises<E> {
      *         otherwise returns false
      */
     public boolean hasTwo(ListNode<E> head) {
-        if (head.getNext().getNext() != null) {
-            return true;
+        if (head == null) {
+            return false;
         }
-        return false;
+        int c = 0;
+        for (ListNode<E> i = head; i != null; i = i.getNext()) {
+            c++;
+        }
+        return c >= 2;
     }
 
     /**
@@ -56,27 +60,30 @@ public class JMCh20Exercises<E> {
      * @return head of the new list
      */
     public ListNode<E> removeFirst(ListNode<E> head) {
-        // TODO complete method
-
-        return null; // TODO fix return value
+        if (head == null) {
+            throw new NoSuchElementException();
+        } else {
+            ListNode<E> retVal = head.getNext();
+            head.setNext(null);
+            return retVal;
+        }
     }
 
     /**
      * Exercise 20.4(a)<br/>
      * 
-     * Returns the number of nodes in the list referred to by head using a while
+     * Returns the number of nodes in the list referred to by head using a for
      * loop.
      * 
      * @param head reference to a list
      * @return the number of nodes in the list referred to by head
      */
     public int sizeFor(ListNode<E> head) {
-        int count = 0;
-        while (head.getNext() != null) {
-            count++;
+        int retVal = 0;
+        for (ListNode<E> i = head; i != null; i = i.getNext()) {
+            retVal++;
         }
-
-        return count;
+        return retVal;
     }
 
     /**
@@ -107,10 +114,15 @@ public class JMCh20Exercises<E> {
      * @return returns a reference to the first node of the modified list
      */
     public ListNode<E> add(ListNode<E> head, E value) {
-        while (head.getNext() != null) {
-            head.getNext();
+        if (head == null) {
+            return new ListNode<E>(value, null);
         }
-        head.setValue(value);
+        ListNode<E> current = head;
+        while (current.getNext() != null) {
+            current = current.getNext();
+        }
+
+        current.setNext(new ListNode<E>(value, null));
 
         return head;
     }
@@ -129,19 +141,34 @@ public class JMCh20Exercises<E> {
      *         are arranged in reverse order
      */
     public ListNode<E> reverseList(ListNode<E> head) {
-        int len = 0;
-        while(head.getNext() != null){
-            len++;
+        ListNode<E> new1 = new ListNode<E>(null, null);
+        ListNode<E> current = new ListNode<E>(null, null);
+        if (head == null) {
+            return head;
+        }
+        int num = 0;
+        for (ListNode<E> i = head; i != null; i = i.getNext()) {
+            new1 = new ListNode<E>(i.getValue(), null);
+            current = new1;
+            num++;
         }
 
-        ListNode<E> retNode = new ListNode<E>(null, null);
+        for (int i = num - 2; i > 0; i--) {
+            ListNode<E> thing = head;
+            for (int j = 0; j <= i; j++) {
+                thing = thing.getNext();
+                if (j == i - 1) {
+                    ListNode<E> urMom = new ListNode<E>(thing.getValue(), null);
+                    current.setNext(urMom);
+                    current = urMom;
 
-        for(int i = len; i >= 0; i--){
-
-
+                }
+            }
         }
 
-        return null; // TODO fix return value
+        current.setNext(new ListNode<E>(head.getValue(), null));
+        return new1;
+
     }
 
     /**
@@ -164,9 +191,21 @@ public class JMCh20Exercises<E> {
      * @return the head of a new list as described above
      */
     public ListNode<String> concatenateStrings(ListNode<String> head) {
-        // TODO complete method
+        if (head == null) {
+            return new ListNode<String>("", null);
+        }
+        String currString = head.getValue();
+        ListNode<String> retList = new ListNode<String>(currString, null);
+        ListNode<String> currNode = retList;
 
-        return null; // TODO fix return value
+        for (ListNode<String> x = head.getNext(); x != null; x = x.getNext()) {
+            currString += x.getValue();
+            ListNode<String> temp = new ListNode<String>(currString, null);
+            currNode.setNext(temp);
+            currNode = temp;
+        }
+
+        return retList;
     }
 
     /**
@@ -187,9 +226,17 @@ public class JMCh20Exercises<E> {
      * @return the head of the rotated list
      */
     public ListNode<E> rotate(ListNode<E> head) {
-        // TODO complete method
-
-        return null; // TODO fix return value
+        if (head == null) {
+            return head;
+        }
+        ListNode<E> ret = head.getNext();
+        for (ListNode<E> i = head; i != null; i = i.getNext()) {
+            if (i.getNext() == null && i != null) {
+                i.setNext(head);
+                head.setNext(null);
+            }
+        }
+        return ret;
     }
 
     /**
@@ -212,9 +259,33 @@ public class JMCh20Exercises<E> {
      * @return the head of the updated list
      */
     public ListNode<String> insertInOrder(ListNode<String> head, String s) {
-        // TODO complete method
+        if (head == null) {
+            return new ListNode<String>(s, null);
+        }
 
-        return null; // TODO fix return value
+        ListNode<String> prev = null;
+        ListNode<String> curr = head;
+
+        while (curr != null) {
+            if (s.compareTo(curr.getValue()) < 0) {
+                ListNode<String> newNode = new ListNode<String>(s, curr);
+                if (prev != null) {
+                    prev.setNext(newNode);
+                } else {
+                    newNode.setNext(curr);
+                    return newNode;
+                }
+                return head;
+            }
+            if (s.compareTo(curr.getValue()) == 0) {
+                return head;
+            }
+            prev = curr;
+            curr = curr.getNext();
+        }
+
+        prev.setNext(new ListNode<String>(s, null));
+        return head;
     }
 
     /**
@@ -235,9 +306,17 @@ public class JMCh20Exercises<E> {
      *         of a linked list
      */
     public ListNode<E> middleNode(ListNode<E> head) {
-        // TODO complete method
+        if (head == null) {
+            return head;
+        }
+        ArrayList<ListNode<E>> new1 = new ArrayList<ListNode<E>>();
+        int tot = 0;
+        for (ListNode<E> i = head; i != null; i = i.getNext()) {
+            new1.add(i);
+            tot++;
+        }
 
-        return null; // TODO fix return value
+        return new1.get(tot / 2);
     }
 
     private boolean match(String str, String pattern) {
@@ -325,7 +404,25 @@ public class JMCh20Exercises<E> {
      * @return sorted list (using Selection Sort)
      */
     public static void sort(ListNode<String> head) {
-        // TODO complete method
+        ListNode<String> temp = head;
+
+        while (temp.getNext() != null) {
+            ListNode<String> min = temp;
+            ListNode<String> r = temp.getNext();
+
+            while (r.getNext() != null) {
+                if (min.getValue().compareTo(r.getValue()) > 0) {
+                    min = r;
+                }
+
+                r = r.getNext();
+            }
+
+            String x = temp.getValue();
+            temp.setValue(min.getValue());
+            min.setValue(x);
+            temp = temp.getNext();
+        }
     }
 
     /**
@@ -341,9 +438,22 @@ public class JMCh20Exercises<E> {
      * @return head of modified list
      */
     public static ListNode2<Integer> removeMax(ListNode2<Integer> head) {
-        // TODO complete method
+        if (head == null) {
+            return null;
+        }
+        ListNode2<Integer> current = head;
+        ListNode2<Integer> max = head;
 
-        return null; // TODO fix return value
+        while (current != null) {
+            if (current.getValue() > max.getValue()) {
+                max = current;
+            }
+            current = current.getNext();
+        }
+        max.getNext().setPrevious(max.getPrevious());
+        max.getPrevious().setNext(max.getNext());
+
+        return head;
     }
 
     private static void swap(ListNode2<Double> node1, ListNode2<Double> node2) {
