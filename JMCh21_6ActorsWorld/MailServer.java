@@ -1,29 +1,62 @@
 import java.util.*;
 
 /**
- * TODO Write a one-sentence summary of your class here. TODO Follow it with
- * additional details about its purpose, what abstraction it represents, and how
- * to use it.
+ * Implements a Mailserver through a LinkedList that behaves like a
+ * queue.
  * 
- * @author TODO Your Name
- * @version TODO Date
+ * @author Shivam Maji
+ * @version 1/12/2021
  * 
- * @author Period - TODO Your Period
- * @author Assignment - TODO Assignment Name
+ * @author Period - 6
+ * @author Assignment - JM Ch21.6 - Actors World
  * 
- * @author Sources - TODO list collaborators
+ * @author Sources - Me Myself and I
  */
-public class MailServer extends LinkedList<Message>
-{
+public class MailServer extends LinkedList<Message> {
     private Set<Actor> actors;
-    
-    
-    // TODO complete class
-    
-    
+    private LinkedList<Actor> server;
+
+    /**
+     * Constructor using a TreeSet
+     */
+    MailServer() {
+        actors = new TreeSet<Actor>();
+    }
+
+    /**
+     * Adds an actor to the actors set object
+     * 
+     * @param actor The actor you want to add to the set
+     */
+    public void signUp(Actor actor) {
+        actors.add(actor);
+    }
+
+    /**
+     * sends msg to the recipient indicated in msg (by calling the recipient’s
+     * receive(msg)), or, if the recipient is null, to all registered subscribers
+     * (except the sender).
+     * 
+     * @param msg The message you want to send
+     */
+    public void dispatch(Message msg) {
+        if (msg.getRecipient() != null) {
+            msg.getRecipient().receive(msg);
+            return;
+        }
+
+        Actor newActor = msg.getSender();
+
+        for (Actor actor : actors) {
+            if (actor != newActor) {
+                actor.receive(msg);
+            }
+        }
+    }
+
     // for testing purposes only
-    protected Set<Actor> getActors()
-    {
+    protected Set<Actor> getActors() {
         return actors;
     }
+
 }
