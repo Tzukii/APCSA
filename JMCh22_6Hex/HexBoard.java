@@ -14,7 +14,6 @@
 public class HexBoard extends CharMatrix {
     public HexBoard(int rows, int cols) {
         super(rows, cols);
-        // TODO complete method
     }
 
     /**
@@ -25,7 +24,7 @@ public class HexBoard extends CharMatrix {
      * @return True if object is black, false if object is not
      */
     public boolean isBlack(int r, int c) {
-        if (charAt(r, c) == 'b') {
+        if (charAt(r, c) == 'b' && isInBounds(r, c)) {
             return true;
         }
         return false;
@@ -39,7 +38,7 @@ public class HexBoard extends CharMatrix {
      * @return True if object is white, false if object is not
      */
     public boolean isWhite(int r, int c) {
-        if (charAt(r, c) == 'w') {
+        if (charAt(r, c) == 'w' && isInBounds(r, c)) {
             return true;
         }
         return false;
@@ -53,22 +52,28 @@ public class HexBoard extends CharMatrix {
      * @return True if object is gray, false if object is not
      */
     public boolean isGray(int r, int c) {
-        if (charAt(r, c) == 'x') {
+        if (charAt(r, c) == 'x' && isInBounds(r, c)) {
             return true;
         }
         return false;
     }
 
     public void setBlack(int r, int c) {
-        setCharAt(r, c, 'b');
+        if (isInBounds(r, c)) {
+            setCharAt(r, c, 'b');
+        }
     }
 
     public void setWhite(int r, int c) {
-        setCharAt(r, c, 'w');
+        if (isInBounds(r, c)) {
+            setCharAt(r, c, 'w');
+        }
     }
 
     public void setGray(int r, int c) {
-        setCharAt(r, c, 'x');
+        if (isInBounds(r, c)) {
+            setCharAt(r, c, 'x');
+        }
     }
 
     /**
@@ -80,20 +85,36 @@ public class HexBoard extends CharMatrix {
      *         otherwise returns false.
      */
     public boolean blackHasWon() {
-        int flag = 0;
-        for (int c = 0; c < numCols(); c++) {
-            if (charAt(0, c) == 'b') {
-                for (int r = 0; r < numRows(); r++) {
-                    if (charAt(r, c) != 'b') {
-                        flag++;
-                    } else {
-                        flag = -999999999;
-                    }
-                }
+        for (int i = 0; i < numRows(); i++) {
+            boolean[][] traversed = new boolean[numRows()][numCols()];
+            if (isBlack(i, 0) && blackHasWonHelper(i, 0, traversed)) {
+                return true;
             }
         }
 
-        return flag < 0;
+        return false;
+    }
+
+    /**
+     * Helper method for blackHasWon
+     * 
+     * @param r         row
+     * @param c         col
+     * @param traversed Checks if traversed
+     * @return
+     */
+    private boolean blackHasWonHelper(int r, int c, boolean[][] traversed) {
+        if (!isInBounds(r, c) || !isBlack(r, c) || traversed[r][c]) {
+            return false;
+        }
+        traversed[r][c] = true;
+
+        if (c == numCols() - 1) {
+            return true;
+        }
+        return blackHasWonHelper(r - 1, c, traversed) || blackHasWonHelper(r, c + 1, traversed)
+                || blackHasWonHelper(r + 1, c + 1, traversed) || blackHasWonHelper(r + 1, c, traversed)
+                || blackHasWonHelper(r, c - 1, traversed) || blackHasWonHelper(r - 1, c - 1, traversed);
     }
 
     /**
@@ -101,18 +122,15 @@ public class HexBoard extends CharMatrix {
      * Does nothing if r, c is out of bounds or is not black.
      */
     public void areaFill(int r, int c) {
-        if (!isInBounds(r, c)) {
-            System.out.println("Out of Bounds!");
-            return;
-        } else if (charAt(r, c) != 'b') {
-            System.out.println("Not Black!");
-            return;
-        } else {
-            for (int rowCount = 0; rowCount <= r; rowCount++) {
-                for (int colCount = 0; colCount <= c; colCount++) {
-                    setGray(rowCount, colCount);
-                }
-            }
+        if (isInBounds(r, c) && isBlack(r, c)) {
+            setGray(r, c);
+
+            areaFill(r - 1, c);
+            areaFill(r, c + 1);
+            areaFill(r + 1, c + 1);
+            areaFill(r + 1, c);
+            areaFill(r, c - 1);
+            areaFill(r - 1, c - 1);
         }
     }
 
@@ -145,7 +163,7 @@ public class HexBoard extends CharMatrix {
      * @return True if coordinate is in bounds, false if not
      */
     private boolean isInBounds(int row, int col) {
-        if (row > numRows() || col > numCols()) {
+        if (row > numRows() || col > numCols() || row < 0 || col < 0) {
             return false;
         }
 
