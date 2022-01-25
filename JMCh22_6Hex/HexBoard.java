@@ -1,7 +1,5 @@
 /**
- * TODO Write a one-sentence summary of your class here.
- * TODO Follow it with additional details about its purpose, what abstraction
- * it represents, and how to use it.
+ * Represents a board of hexagons to simulate the game of hex.
  * 
  * @author Shivam Maji
  * @version 1/16/2021
@@ -24,10 +22,7 @@ public class HexBoard extends CharMatrix {
      * @return True if object is black, false if object is not
      */
     public boolean isBlack(int r, int c) {
-        if (charAt(r, c) == 'b' && isInBounds(r, c)) {
-            return true;
-        }
-        return false;
+        return charAt(r, c) == 'b';
     }
 
     /**
@@ -38,10 +33,7 @@ public class HexBoard extends CharMatrix {
      * @return True if object is white, false if object is not
      */
     public boolean isWhite(int r, int c) {
-        if (charAt(r, c) == 'w' && isInBounds(r, c)) {
-            return true;
-        }
-        return false;
+        return charAt(r, c) == 'w';
     }
 
     /**
@@ -52,28 +44,19 @@ public class HexBoard extends CharMatrix {
      * @return True if object is gray, false if object is not
      */
     public boolean isGray(int r, int c) {
-        if (charAt(r, c) == 'x' && isInBounds(r, c)) {
-            return true;
-        }
-        return false;
+        return charAt(r, c) == 'x';
     }
 
     public void setBlack(int r, int c) {
-        if (isInBounds(r, c)) {
-            setCharAt(r, c, 'b');
-        }
+        setCharAt(r, c, 'b');
     }
 
     public void setWhite(int r, int c) {
-        if (isInBounds(r, c)) {
-            setCharAt(r, c, 'w');
-        }
+        setCharAt(r, c, 'w');
     }
 
     public void setGray(int r, int c) {
-        if (isInBounds(r, c)) {
-            setCharAt(r, c, 'x');
-        }
+        setCharAt(r, c, 'x');
     }
 
     /**
@@ -98,10 +81,10 @@ public class HexBoard extends CharMatrix {
     /**
      * Helper method for blackHasWon
      * 
-     * @param r         row
-     * @param c         col
-     * @param traversed Checks if traversed
-     * @return
+     * @param r         the starting row to check
+     * @param c         the starting column to check
+     * @param traversed a boolean array of every tile that has been traversed
+     * @return true if black has won, false if not.
      */
     private boolean blackHasWonHelper(int r, int c, boolean[][] traversed) {
         if (!isInBounds(r, c) || !isBlack(r, c) || traversed[r][c]) {
@@ -163,10 +146,6 @@ public class HexBoard extends CharMatrix {
      * @return True if coordinate is in bounds, false if not
      */
     private boolean isInBounds(int row, int col) {
-        if (row > numRows() || col > numCols() || row < 0 || col < 0) {
-            return false;
-        }
-
-        return true;
+        return row >= 0 && row < numRows() && col >= 0 && col < numCols();
     }
 }
