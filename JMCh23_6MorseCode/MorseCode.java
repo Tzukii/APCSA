@@ -72,7 +72,8 @@ public class MorseCode {
      * and calls treeInsert to insert them into the decoding tree.
      */
     private static void addSymbol(char letter, String code) {
-        // TODO complete method
+        codeMap.put(letter, code);
+        treeInsert(letter, code);
     }
 
     /**
@@ -83,7 +84,21 @@ public class MorseCode {
      * the symbol for that code string.
      */
     private static void treeInsert(char letter, String code) {
-        // TODO complete method
+        char[] arr = code.toCharArray();
+        TreeNode head = decodeTree;
+        for (char c : arr) {
+            if (c == DOT) {
+                if (head.getLeft() == null)
+                    head.setLeft(new TreeNode(" "));
+                head = head.getLeft();
+            }
+            if (c == DASH) {
+                if (head.getRight() == null)
+                    head.setRight(new TreeNode(" "));
+                head = head.getRight();
+            }
+        }
+        head.setValue(letter);
     }
 
     /**
@@ -95,9 +110,13 @@ public class MorseCode {
      */
     public static String encode(String text) {
         StringBuffer morse = new StringBuffer(400);
-
-        // TODO complete method
-
+        char[] arr = text.toUpperCase().toCharArray();
+        for (char c : arr) {
+            if (codeMap.containsKey(c))
+                morse.append(codeMap.get(c) + " ");
+            else
+                morse.append(" ");
+        }
         return morse.toString();
     }
 
@@ -111,9 +130,24 @@ public class MorseCode {
     public static String decode(String morse) {
         StringBuffer text = new StringBuffer(100);
 
-        // TODO complete method
-
+        String[] sub = morse.split("[\\s]");
+        for (String s : sub) {
+            if (s.equals(" ")) {
+                text.append(" ");
+            } else {
+                char[] subC = s.toCharArray();
+                TreeNode head = decodeTree;
+                for (char c : subC) {
+                    if (c == DOT)
+                        head = head.getLeft();
+                    if (c == DASH)
+                        head = head.getRight();
+                }
+                text.append(head.getValue());
+            }
+        }
         return text.toString();
+
     }
 
     // --------------------------------------------------------------------
