@@ -43,4 +43,11 @@ public class BrowserView {
     public int getLineNum() {
         return lineNum;
     }
+
+    public int getLineNumber(int x, int y) {
+        return 0;
+    }
+
+    public void addMouseListener(BrowserMouseListener browserMouseListener) {
+    }
 }

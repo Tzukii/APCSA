@@ -11,7 +11,7 @@ public class LineCruiser extends JFrame
         super("Line Cruiser");
 
         JScrollBar scrollbar = new JScrollBar();
-        BrowserView view = new BrowserView(scrollbar, textLines);
+        BrowserView view = new BrowserView();
         BrowserModel model = new BrowserModel(view);
         BrowserControlPanel controlPanel = new BrowserControlPanel(model);
         view.addMouseListener(new BrowserMouseListener(model,
