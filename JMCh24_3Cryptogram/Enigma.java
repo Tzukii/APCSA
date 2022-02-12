@@ -14,10 +14,9 @@ import java.util.Arrays;
  */
 public class Enigma {
     private char[] lookupTable;
-    private int[] counts;
-    private static final String letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     /**
+     * Constructor
      * 
      * @param numLetters The number of letters you want to be in your lookup table.
      */
@@ -28,15 +27,11 @@ public class Enigma {
     /**
      * Assumes that subs contains 26 characters and saves it as the lookup table.
      * 
-     * @param index
-     * @param ch
+     * @param index Index to add to
+     * @param ch    Character to add
      */
     public void setSubstitution(int index, char ch) {
-        for (char c : lookupTable) {
-            if (c == index) {
-                lookupTable[c] = ch;
-            }
-        }
+        lookupTable[index] = ch;
     }
 
     /**
@@ -45,14 +40,20 @@ public class Enigma {
      * preserves the upper or lower case of letters. It returns the decoded string,
      * which has the same length as text
      * 
-     * @param text
-     * @return
+     * @param text Text to decode
+     * @return Decoded text
      */
     public String decode(String text) {
         StringBuffer buffer = new StringBuffer(text.length());
 
-        // TODO complete method
-
+        for (char c : text.toCharArray()) {
+            int i = Character.getNumericValue(Character.toUpperCase(c)) - 10;
+            buffer.append(
+                    Character.isLetter(c)
+                            ? Character.isUpperCase(c) ? Character.toUpperCase(lookupTable[i])
+                                    : Character.toLowerCase(lookupTable[i])
+                            : c);
+        }
         return buffer.toString();
     }
 
@@ -72,17 +73,29 @@ public class Enigma {
      * letters ‘A’ through ‘Z’ arranged in increasing order of their frequencies in
      * a sample text file.
      * 
-     * @param text
-     * @param lettersByFrequency
+     * @param text               Input Text
+     * @param lettersByFrequency Frequency of each letter
      * @return Returns computer-generated hints for each letter in the encrypted
      *         text. It works as follows. First it counts the number of occurrences
      *         for each of the letters ‘a’ through ‘z’ in text (case blind) and
      *         saves these 26 counts in an array
      */
     public String getHints(String text, String lettersByFrequency) {
-        // TODO complete method
+        char[] hints = new char[lookupTable.length];
+        int[] counts = countLetters(text);
 
-        return new String(/* FIX THIS */);
+        for (int i = 0; i < counts.length; i++) {
+            int temp = 0;
+            for (int j = 0; j < counts.length; j++) {
+                if (counts[j] < counts[i] ||
+                        (counts[j] == counts[i] && j < i)) {
+                    temp++;
+                }
+            }
+            hints[i] = lettersByFrequency.charAt(temp);
+        }
+
+        return new String(hints);
     }
 
     /**
@@ -94,11 +107,12 @@ public class Enigma {
      *         returns them in an array
      */
     private int[] countLetters(String text) {
-        counts = new int[lookupTable.length];
+        int[] counts = new int[lookupTable.length];
 
-        char[] ch = text.toCharArray();
-        for (char c : ch) {
-            counts[letters.indexOf(c)]++;
+        for (char c : text.toCharArray()) {
+            if (Character.isLetter(c)) {
+                counts[Character.getNumericValue(c) - 10]++;
+            }
         }
 
         return counts;
