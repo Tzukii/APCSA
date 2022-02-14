@@ -1,44 +1,37 @@
-
 /**
  * Question 24-20
  * 
- *  Write a hashCode method for this class that agrees with the equals method
- *  and returns different values for Persons of different ages.
+ * Write a hashCode method for this class that agrees with the equals method
+ * and returns different values for Persons of different ages.
  *
- *  @author  TODO Your Name
- *  @version TODO date
- *  @author  Period: TODO
- *  @author  Assignment: JMCh24Exercises Question 20
+ * @author Shivam Maji
+ * @version 2/13/21
+ * @author Period: 6
+ * @author Assignment: JMCh24Exercises Question 20
  *
- *  @author  Sources: TODO
+ * @author Sources: Me Myself and I
  */
-public class Person
-{
+public class Person {
     private String name;
     private int age; // age <= 125
 
-    public Person( String name, int age )
-    {
+    public Person(String name, int age) {
         this.name = name;
         this.age = age;
     }
 
-    public boolean equals( Object other )
-    {
-        if ( !( other instanceof Person ) )
-        {
+    public boolean equals(Object other) {
+        if (!(other instanceof Person)) {
             return false;
         }
-        Person otherPerson = (Person)other;
-        return name.equals( otherPerson.name ) && age == otherPerson.age;
+        Person otherPerson = (Person) other;
+        return name.equals(otherPerson.name) && age == otherPerson.age;
     }
 
-    public int hashCode()
-    {
+    public int hashCode() {
         // TODO complete method
-        
+
         return 0; // TODO Fix This!!!
     }
 
 }
-

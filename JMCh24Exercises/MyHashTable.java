@@ -1,35 +1,32 @@
 import java.util.*;
 
 /**
- * Question 24-22
+ * Java Methods Chapter 24 Exercises 19-22.
  *
- * @author TODO Your Name
- * @version TODO date
- * @author Period: TODO
+ * @author Shivam Maji
+ * @version 2/13/21
+ * @author Period: 6
  * @author Assignment: JMCh24Exercises
  *
- * @author Sources: TODO
+ * @author Sources: Me Myself and I
  */
-public class MyHashTable
-{
+public class MyHashTable {
     private ArrayList<LinkedList<String>> buckets;
     private int numItems;
     private double loadFactorLimit;
 
-    public MyHashTable()
-    {
-        this( 16, 0.75 );
+    public MyHashTable() {
+        this(16, 0.75);
     }
 
-    public MyHashTable( int capacity, double limit )
-    {
-        buckets = new ArrayList<LinkedList<String>>( capacity );
-        for ( int count = 1; count <= capacity; count++ )
-            buckets.add( new LinkedList<String>() );
+    public MyHashTable(int capacity, double limit) {
+        buckets = new ArrayList<LinkedList<String>>(capacity);
+        for (int count = 1; count <= capacity; count++)
+            buckets.add(new LinkedList<String>());
         numItems = 0;
         loadFactorLimit = limit;
     }
-    
+
     /**
      * Question 24-22
      * 
@@ -64,11 +61,10 @@ public class MyHashTable
      * Removes all of the elements from this set. The set will be empty
      * after this call returns.
      */
-    public void clear()
-    {
-        buckets = new ArrayList<LinkedList<String>>( buckets.size() );
-        for ( int count = 1; count <= buckets.size(); count++ )
-            buckets.add( new LinkedList<String>() );
+    public void clear() {
+        buckets = new ArrayList<LinkedList<String>>(buckets.size());
+        for (int count = 1; count <= buckets.size(); count++)
+            buckets.add(new LinkedList<String>());
         numItems = 0;
     }
 
@@ -77,15 +73,14 @@ public class MyHashTable
      * returns true if and only if this set contains an element e such that
      * (o==null ? e==null : o.equals(e)).
      * 
-     * @param obj  element whose presence in this set is to be tested
+     * @param obj element whose presence in this set is to be tested
      * 
      * @return true if this set contains the specified element
      */
-    public boolean contains( Object obj )
-    {
+    public boolean contains(Object obj) {
         int i = obj.hashCode() % buckets.size();
-        
-        return buckets.get( i ).contains( obj );
+
+        return buckets.get(i).contains(obj);
     }
 
     /**
@@ -99,50 +94,40 @@ public class MyHashTable
      * @param str string to be removed from this set, if present
      * @return true if the set contained the specified element
      */
-    public boolean remove( Object str )
-    {
-        if ( str instanceof String )
-        {
+    public boolean remove(Object str) {
+        if (str instanceof String) {
             int index = str.hashCode() % buckets.size();
-            return buckets.get( index ).remove( str );
+            return buckets.get(index).remove(str);
         }
         return false;
     }
 
-    public boolean isEmpty()
-    {
+    public boolean isEmpty() {
         return numItems == 0;
     }
 
-    public int size()
-    {
+    public int size() {
         return numItems;
     }
 
-    private void resize( int newSize )
-    {
-        ArrayList<LinkedList<String>> newBuckets =
-            new ArrayList<LinkedList<String>>( newSize );
+    private void resize(int newSize) {
+        ArrayList<LinkedList<String>> newBuckets = new ArrayList<LinkedList<String>>(newSize);
 
-        for ( int count = 1; count <= newSize; count++ )
-        {
-            newBuckets.add( new LinkedList<String>() );
+        for (int count = 1; count <= newSize; count++) {
+            newBuckets.add(new LinkedList<String>());
         }
 
-        for ( LinkedList<String> bucket : buckets )
-        {
-            for ( String str : bucket )
-            {
+        for (LinkedList<String> bucket : buckets) {
+            for (String str : bucket) {
                 int index = Math.abs(str.hashCode() % newBuckets.size());
-                newBuckets.get( index ).add( str );
+                newBuckets.get(index).add(str);
             }
         }
 
         buckets = newBuckets;
     }
-    
-    public String toString()
-    {
+
+    public String toString() {
         return buckets.toString();
     }
 
