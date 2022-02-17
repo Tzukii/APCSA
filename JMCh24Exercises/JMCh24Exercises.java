@@ -31,9 +31,20 @@ public class JMCh24Exercises {
      */
     @SuppressWarnings("deprecation")
     public boolean has3OnSameDay(Date[] birthdays) {
-        // TODO complete method
+        HashMap<Date, Integer> map = new HashMap<>();
+        for (Date date : birthdays) {
+            if (map.get(date) == null) {
+                map.put(date, 1);
+            } else {
+                map.put(date, map.get(date) + 1);
+            }
+            if (map.get(date) >= 3) {
+                return true;
+            }
+        }
 
-        return false; // TODO FIX this!!!
+        return false;
+
     }
 
     /**
@@ -54,7 +65,18 @@ public class JMCh24Exercises {
 
         // TODO complete method
 
-        return null; // TODO FIX this!!!
+        String word;
+        while (input.hasNext()) {
+            word = input.next().toLowerCase();
+
+            if (counts.get(word) == null) {
+                counts.put(word, 1);
+            } else {
+                counts.put(word, counts.get(word) + 1);
+            }
+        }
+
+        return Collections.max(counts.entrySet(), Map.Entry.comparingByValue()).getKey();
     }
 
     /**

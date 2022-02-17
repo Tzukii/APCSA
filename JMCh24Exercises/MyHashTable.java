@@ -40,21 +40,20 @@ public class MyHashTable {
      * @param str element to be added to this table
      * @return true if this table did not already contain the specified element
      */
-    public boolean add( String str )
-    {
-        if ( ( /*________________________________________*/ )
-        {
-            resize( 2 * buckets.size() );
+    public boolean add(String str) {
+        if (!((double) numItems / buckets.size() < loadFactorLimit)) {
+            resize(2 * buckets.size());
         }
 
-        int index = Math.abs( str.hashCode() % buckets.size() );
-        
-        /*________________________________________*/
-        /*________________________________________*/
-        /*________________________________________*/
-        /*________________________________________*/
+        int index = Math.abs(str.hashCode() % buckets.size());
 
-        return true;
+        if (!buckets.get(index).contains(str)) {
+            buckets.get(index).add(str);
+            numItems++;
+            return true;
+        }
+
+        return false;
     }
 
     /**

@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 /**
  * Question 24-20
  * 
@@ -29,9 +31,7 @@ public class Person {
     }
 
     public int hashCode() {
-        // TODO complete method
-
-        return 0; // TODO Fix This!!!
+        return name.hashCode() + age;
     }
 
 }
