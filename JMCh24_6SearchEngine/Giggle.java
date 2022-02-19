@@ -6,8 +6,7 @@ import java.io.*;
 import java.util.List;
 import java.util.Iterator;
 
-public class Giggle extends JFrame
-{
+public class Giggle extends JFrame {
     public static JFrame thisWindow;
 
     private JMenuItem openItem, exitItem;
@@ -15,8 +14,7 @@ public class Giggle extends JFrame
     private JTextField searchFld;
     private SearchEngine searchEngine;
 
-    public Giggle() 
-    {
+    public Giggle() {
         super("Giggle");
 
         thisWindow = this;
@@ -66,18 +64,15 @@ public class Giggle extends JFrame
     }
 
     /******************************************************************/
-    /***************          Action Listeners         ****************/
+    /*************** Action Listeners ****************/
     /******************************************************************/
 
-    private class FileAction implements ActionListener
-    {
+    private class FileAction implements ActionListener {
         private String pathName = System.getProperty("user.dir") + "/";
 
-        public void actionPerformed(ActionEvent e)
-        {
-            JMenuItem m = (JMenuItem)e.getSource();
-            if (m == openItem)
-            {
+        public void actionPerformed(ActionEvent e) {
+            JMenuItem m = (JMenuItem) e.getSource();
+            if (m == openItem) {
                 JFileChooser fileChooser = new JFileChooser(pathName);
                 fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
                 int result = fileChooser.showOpenDialog(thisWindow);
@@ -89,37 +84,27 @@ public class Giggle extends JFrame
                     pathName = file.getAbsolutePath();
 
                 BufferedReader inputFile;
-                try
-                {
+                try {
                     inputFile = new BufferedReader(new FileReader(pathName), 1024);
-                }
-                catch (FileNotFoundException ex)
-                {
+                } catch (FileNotFoundException ex) {
                     JOptionPane.showMessageDialog(thisWindow, "Invalid File Name",
-                        "Cannot open " + pathName, JOptionPane.ERROR_MESSAGE);
+                            "Cannot open " + pathName, JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
-
                 searchEngine = new SearchEngine(pathName);
                 String line;
-                try
-                {
+                try {
                     while ((line = inputFile.readLine()) != null)
                         searchEngine.add(line);
-                }
-                catch (IOException ex)
-                {
+                } catch (IOException ex) {
                     System.err.println("Error reading " + pathName + "\n");
                     return;
                 }
 
-                try
-                {
+                try {
                     inputFile.close();
-                }
-                catch (IOException ex)
-                {
+                } catch (IOException ex) {
                     System.err.println("Error closing " + pathName + "\n");
                     return;
                 }
@@ -127,17 +112,14 @@ public class Giggle extends JFrame
                 textArea.setText("Indexed " + pathName);
             }
 
-            else if (m == exitItem)
-            {
+            else if (m == exitItem) {
                 System.exit(0);
             }
         }
     }
 
-    private class SearchAction implements ActionListener
-    {
-        public void actionPerformed(ActionEvent e)
-        {
+    private class SearchAction implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
             if (searchEngine == null)
                 return;
 
@@ -147,10 +129,9 @@ public class Giggle extends JFrame
             if (hits != null)
                 numHits = hits.size();
             textArea.setText("\"" + word + "\" in " + searchEngine.getURL() + ": " +
-                numHits + " hit(s)\n\n");
+                    numHits + " hit(s)\n\n");
 
-            if (numHits > 0)
-            { 
+            if (numHits > 0) {
                 for (String line : hits)
                     textArea.append(line + "\n\n");
             }
@@ -159,10 +140,9 @@ public class Giggle extends JFrame
     }
 
     /******************************************************************/
-    /***************                  main             ****************/
+    /*************** main ****************/
     /******************************************************************/
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         Giggle window = new Giggle();
         window.setDefaultCloseOperation(EXIT_ON_CLOSE);
         window.setBounds(0, 0, 640, 480);
