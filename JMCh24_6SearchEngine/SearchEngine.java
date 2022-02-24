@@ -44,7 +44,8 @@ public class SearchEngine {
         for (String obj : parseWords(line)) {
             if (myIndex.containsKey(obj)) {
                 myIndex.get(obj).add(line);
-            } else {
+            } 
+            else {
                 myIndex.put(obj, new LinkedList<String>());
                 myIndex.get(obj).add(line);
             }
@@ -62,7 +63,7 @@ public class SearchEngine {
         return myIndex.get(word);
     }
 
-    /*
+    /**
      * Parses the words
      * 
      * @param line The line you want to input
@@ -81,6 +82,11 @@ public class SearchEngine {
     // *************************************************************
     // For test purposes only
     // not to be used in solution implementation
+    /**
+     * Why does this need a javadox afdghjk
+     * 
+     * @return myIndex
+     */
     public Map<String, List<String>> getIndex() {
         return myIndex;
     }
