@@ -10,7 +10,7 @@ import java.util.*;
  * @author Period - 6
  * @author Assignment - JMCh25_4HeapOfTrouble
  * 
- * @author Sources - Mr. Peck
+ * @author Sources - Mr. Peck who tf is mr peck
  */
 public class HeapOfTrouble {
     HeapPriorityQueue myHeapPQ;
@@ -50,7 +50,9 @@ public class HeapOfTrouble {
      * TODO Write your method description here.
      */
     public void sort() {
-        // TODO complete method
+        while (!myHeapPQ.isEmpty()) {
+            System.out.println(myHeapPQ.remove().toString());
+        }
     }
 
     public void printbyLevel() {
