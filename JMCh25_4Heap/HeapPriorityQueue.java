@@ -3,13 +3,13 @@ import java.util.*;
 /**
    Implements a priority queue based on a min-heap.
 
-   @author  TODO Your Name
+   @author  Me, Myself and I
    @version Date
 
-   @author Period - TODO Your Period
-   @author Assignment - TODO Assignment Name
+   @author Period - 6
+   @author Assignment - JMCh25_4HeapOfTrouble
 
-   @author Sources - TODO list collaborators
+   @author Sources - Me Myself and I
  */
 public class HeapPriorityQueue
 {
